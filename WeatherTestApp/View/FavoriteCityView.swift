@@ -22,7 +22,7 @@ struct FavoriteCityView: View {
             Text("Favorite location")
                 .font(.title)
                 .foregroundStyle(.gray)
-            Text(currentData.name ?? "unknown")
+            Text(cityName)
                 .font(.title2)
                 .foregroundStyle(.black)
                 .opacity(isFetching ? 0 : 1)
@@ -73,13 +73,13 @@ struct FavoriteCityView: View {
         .toolbar(.hidden, for: .tabBar)
         .onAppear {
             Task {
+                isFetching = true
                 do {
-                    isFetching = true
                     currentData = try await NetworkService.shared.getWeatheDataByCityName(city: cityName)
-                    isFetching = false
                 } catch {
                     print(error)
                 }
+                isFetching = false
             }
         }
     }

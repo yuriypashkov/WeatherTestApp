@@ -21,13 +21,13 @@ class WeatherDataViewModel: ObservableObject {
     
     @MainActor
     func getWeatherData(query: String) async throws {
+        isFetching = true
         do {
-            isFetching = true
             data = try await NetworkService.shared.getWeatheDataByCityName(city: query)
-            isFetching = false
         } catch {
             print(error)
         }
+        isFetching = false
     }
     
     @MainActor
